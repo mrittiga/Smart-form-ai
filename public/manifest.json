@@ -1,0 +1,59 @@
+{
+  "short_name": "Smart Form AI",
+  "name": "Smart Form AI - AI-Powered Form Automation",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#6366f1",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "description": "AI-powered form automation platform to save time on repetitive form filling",
+  "screenshots": [
+    {
+      "src": "screenshots/screenshot1.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "screenshots/screenshot2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Create Form",
+      "short_name": "New Form",
+      "description": "Create a new form",
+      "url": "/form/new",
+      "icons": [{ "src": "icons/new-form.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Go to dashboard",
+      "url": "/",
+      "icons": [{ "src": "icons/dashboard.png", "sizes": "192x192" }]
+    }
+  ]
+}

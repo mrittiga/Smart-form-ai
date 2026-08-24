@@ -1,0 +1,144 @@
+.analytics-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.analytics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.analytics-time-range {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.analytics-time-btn {
+  padding: 10px 16px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.analytics-time-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.analytics-time-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  border-color: var(--primary);
+  color: white;
+}
+
+.analytics-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.analytics-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+.analytics-detailed {
+  margin-bottom: 0;
+}
+
+.analytics-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.analytics-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(99, 102, 241, 0.05);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.analytics-metric-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.analytics-metric-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.analytics-insights {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.analytics-insight {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(99, 102, 241, 0.05);
+  border-left: 3px solid var(--primary);
+  border-radius: 8px;
+}
+
+.analytics-insight-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.analytics-insight h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
+}
+
+.analytics-insight p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .analytics-metrics {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .analytics-charts {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .analytics-insight {
+    gap: 12px;
+  }
+
+  .analytics-insight-icon {
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,121 @@
+.form-list {
+  width: 100%;
+}
+
+.form-list-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.form-list-filter-btn {
+  padding: 10px 16px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.form-list-filter-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.form-list-filter-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  border-color: var(--primary);
+  color: white;
+}
+
+.form-list-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.form-list-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.form-list-status {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.form-list-status--draft {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+}
+
+.form-list-status--active {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.form-list-status--archived {
+  background: rgba(107, 114, 128, 0.1);
+  color: var(--text-tertiary);
+}
+
+.form-list-date {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.form-list-fields {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-left: auto;
+}
+
+.form-list-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.form-list-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.form-list-empty-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.form-list-empty h3 {
+  font-size: 20px;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.form-list-empty p {
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .form-list-container {
+    grid-template-columns: 1fr;
+  }
+
+  .form-list-meta {
+    font-size: 12px;
+  }
+}

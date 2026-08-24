@@ -1,0 +1,31 @@
+.chart-container {
+  padding: 24px;
+  background: var(--glass-bg);
+}
+
+.chart-container svg {
+  font-family: inherit;
+}
+
+.chart-container text {
+  fill: var(--text-secondary);
+}
+
+.recharts-cartesian-axis-tick {
+  font-size: 12px;
+}
+
+.recharts-legend-wrapper {
+  padding-top: 20px !important;
+}
+
+.recharts-legend-item-text {
+  color: var(--text-secondary) !important;
+  font-size: 13px !important;
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    padding: 16px;
+  }
+}

@@ -1,0 +1,165 @@
+.submissions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.submissions-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.submissions-stat-card {
+  text-align: center;
+}
+
+.submissions-stat-card h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.5px;
+}
+
+.submissions-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+
+.submissions-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.submissions-filters {
+  display: flex;
+  gap: 8px;
+}
+
+.submissions-filter {
+  padding: 10px 16px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submissions-filter:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.submissions-filter.active {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  border-color: var(--primary);
+  color: white;
+}
+
+.submissions-table-card {
+  overflow: auto;
+}
+
+.submissions-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.submissions-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.submissions-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.submissions-table thead {
+  border-bottom: 2px solid var(--border);
+}
+
+.submissions-table th {
+  padding: 16px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.submissions-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.submissions-table tbody tr:hover {
+  background: rgba(99, 102, 241, 0.05);
+}
+
+.submissions-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.submissions-badge--submitted {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.submissions-badge--draft {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+}
+
+.submissions-badge--failed {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+}
+
+.submissions-actions {
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .submissions-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .submissions-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .submissions-filters {
+    flex-wrap: wrap;
+  }
+
+  .submissions-table {
+    font-size: 12px;
+  }
+
+  .submissions-table th,
+  .submissions-table td {
+    padding: 12px 8px;
+  }
+}
