@@ -1,0 +1,139 @@
+
+/* Ensure main content containers adapt dynamically on mobile screens */
+main, 
+.dashboard-container, 
+.content-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Prevent grid items or metric cards from squishing or clipping */
+.grid, 
+.card-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  gap: 1rem !important;
+  width: 100% !important;
+}
+
+/* Fix mobile sidebar overlay z-index without displacing main forms */
+.sidebar {
+  z-index: 50 !important;
+}
+
+/* Ensure form creation containers remain visible and responsive */
+.form-builder,
+.form-container,
+form {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Fix /forms route layout rendering */
+body, #__next, root {
+  background-color: #0b1120 !important;
+  color: #ffffff !important;
+}
+
+/* Ensure sub-pages display their unique view instead of full dashboard clone */
+main {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  padding: 1rem !important;
+  box-sizing: border-box !important;
+}
+
+/* Style form creation area if hidden inside cards */
+.forms-wrapper,
+.create-form-container,
+[class*="form"] {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 200px;
+}
+
+/* Restructure mobile grid cards so they don't block the creation UI below them */
+div[class*="grid"],
+.metrics-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 1rem !important;
+  margin-bottom: 2rem !important;
+}
+
+/* Mobile Sidebar Fix */
+nav, .sidebar {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  z-index: 9999 !important;
+}
+
+/* Force mobile container to stack vertically instead of squeezing side-by-side */
+@media (max-width: 768px) {
+  /* Make main container use full width */
+  main, 
+  body > div, 
+  #__next > div,
+  .dashboard-layout,
+  [class*="layout"],
+  [class*="container"] {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    padding: 0.75rem !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Make sidebar/navigation full width at top instead of pinning to left */
+  aside, 
+  nav, 
+  [class*="sidebar"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    position: relative !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* Fix main section squeezing */
+  section, 
+  .content,
+  [class*="content"],
+  [class*="main"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+  }
+
+  /* Force metric cards, settings cards, and forms to stretch to full screen width */
+  div[class*="card"],
+  .card,
+  form,
+  [class*="form"],
+  [class*="setting"],
+  [class*="profile"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Prevent grid columns from squeezing content into thin strips */
+  [class*="grid"] {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 1rem !important;
+  }
+}

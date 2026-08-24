@@ -8,10 +8,6 @@ import Input from '../components/Common/Input';
 import toast from 'react-hot-toast';
 import '../styles/auth.css';
 
-/**
- * Signup Page
- * User registration page with validation and password strength
- */
 const SignupPage = () => {
   const navigate = useNavigate();
   const { signup, loading, isAuthenticated } = useAuth();
@@ -27,14 +23,12 @@ const SignupPage = () => {
   const [passwordStrength, setPasswordStrength] = useState(null);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
-  // Redirect if already logged in
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/');
     }
   }, [isAuthenticated, navigate]);
 
-  // Update password strength
   useEffect(() => {
     if (formData.password) {
       setPasswordStrength(calculatePasswordStrength(formData.password));
@@ -43,13 +37,22 @@ const SignupPage = () => {
     }
   }, [formData.password]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (e, explicitName) => {
+    let name = explicitName;
+    let value = e;
+
+    if (e && e.target) {
+      name = e.target.name || explicitName;
+      value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    }
+
+    if (!name) return;
+
     setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
-    // Clear error for this field
+
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -61,13 +64,11 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check terms agreement
     if (!agreeToTerms) {
       toast.error('You must agree to the terms and conditions');
       return;
     }
 
-    // Validate form
     const validation = validateSignupForm(formData);
     if (!validation.isValid) {
       setErrors(validation.errors);
@@ -110,7 +111,6 @@ const SignupPage = () => {
 
       <div className="auth-content">
         <div className="auth-card">
-          {/* Header */}
           <div className="auth-header">
             <div className="auth-logo">
               <div className="auth-logo-icon">✨</div>
@@ -121,7 +121,6 @@ const SignupPage = () => {
             </p>
           </div>
 
-          {/* Error message */}
           {errors.submit && (
             <div className="auth-error">
               <div className="auth-error-icon">⚠️</div>
@@ -129,37 +128,33 @@ const SignupPage = () => {
             </div>
           )}
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="auth-form">
-            {/* Full Name Field */}
             <Input
               label="Full Name"
               type="text"
               name="fullName"
               placeholder="John Doe"
               value={formData.fullName}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e, 'fullName')}
               error={errors.fullName}
               required
               icon={User}
               autoComplete="name"
             />
 
-            {/* Email Field */}
             <Input
               label="Email Address"
               type="email"
               name="email"
               placeholder="your@email.com"
               value={formData.email}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e, 'email')}
               error={errors.email}
               required
               icon={Mail}
               autoComplete="email"
             />
 
-            {/* Password Field */}
             <div>
               <Input
                 label="Password"
@@ -167,14 +162,13 @@ const SignupPage = () => {
                 name="password"
                 placeholder="••••••••"
                 value={formData.password}
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, 'password')}
                 error={errors.password}
                 required
                 icon={Lock}
                 autoComplete="new-password"
               />
 
-              {/* Password Strength Indicator */}
               {passwordStrength && (
                 <div className="auth-password-strength">
                   <div className="auth-password-strength-bar">
@@ -196,21 +190,19 @@ const SignupPage = () => {
               )}
             </div>
 
-            {/* Confirm Password Field */}
             <Input
               label="Confirm Password"
               type="password"
               name="confirmPassword"
               placeholder="••••••••"
               value={formData.confirmPassword}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e, 'confirmPassword')}
               error={errors.confirmPassword}
               required
               icon={Lock}
               autoComplete="new-password"
             />
 
-            {/* Terms Agreement */}
             <label className="auth-checkbox auth-checkbox-large">
               <input
                 type="checkbox"
@@ -229,7 +221,6 @@ const SignupPage = () => {
               </span>
             </label>
 
-            {/* Submit Button */}
             <Button
               type="submit"
               variant="primary"
@@ -251,12 +242,10 @@ const SignupPage = () => {
             </Button>
           </form>
 
-          {/* Divider */}
           <div className="auth-divider">
             <span>Already have an account?</span>
           </div>
 
-          {/* Footer */}
           <div className="auth-footer">
             <p>
               Sign in to your existing account{' '}

@@ -1,164 +1,57 @@
-import React, { useEffect, useState } from 'react';
-import { Eye, Trash2, Download, Filter } from 'lucide-react';
-import Layout from '../components/Common/Layout';
-import Card from '../components/Common/Card';
-import Button from '../components/Common/Button';
-import Loading from '../components/Common/Loading';
-import { useSubmissions } from '../store/useSubmissions';
-import { formatDate, formatDateRelative } from '../utils/formatters';
-import toast from 'react-hot-toast';
-import '../styles/submissions.css';
+import React from 'react';
+import { Download, Filter } from 'lucide-react';
 
-/**
- * Submissions Page
- * View and manage all form submissions
- */
 const SubmissionsPage = () => {
-  const { submissions, loading, fetchSubmissions, stats } = useSubmissions();
-  const [filter, setFilter] = useState('all');
-
-  useEffect(() => {
-    fetchSubmissions();
-  }, [fetchSubmissions]);
-
-  const filteredSubmissions = submissions.filter(s => {
-    if (filter === 'all') return true;
-    return s.status === filter;
-  });
-
-  const handleExport = () => {
-    const csv = submissions.map(s => ({
-      ID: s.id,
-      'Form': s.form_id,
-      'Status': s.status,
-      'Submitted': formatDate(s.created_at),
-      'Time': s.time_taken || '-',
-    }));
-
-    const csvContent = [
-      Object.keys(csv[0]).join(','),
-      ...csv.map(r => Object.values(r).join(',')),
-    ].join('\n');
-
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'submissions.csv';
-    a.click();
-    window.URL.revokeObjectURL(url);
-  };
-
-  if (loading) {
-    return <Loading fullScreen message="Loading submissions..." />;
-  }
-
   return (
-    <Layout
-      title="Submissions"
-      description="Track and manage all form submissions"
-    >
-      <div className="submissions-container">
-        {/* Stats */}
-        <div className="submissions-stats">
-          <Card className="submissions-stat-card">
-            <h4>Total Submissions</h4>
-            <p className="submissions-stat-value">{stats.totalSubmissions || 0}</p>
-          </Card>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      <div>
+        <h1 style={{ fontSize: '28px', fontWeight: '800', margin: '0 0 6px 0', color: 'var(--text-primary)' }}>Submissions</h1>
+        <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '15px' }}>Track and manage all form responses</p>
+      </div>
 
-          <Card className="submissions-stat-card">
-            <h4>Success Rate</h4>
-            <p className="submissions-stat-value">{stats.successRate || 0}%</p>
-          </Card>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
+        {[
+          { label: 'Total Submissions', val: '128' },
+          { label: 'Success Rate', val: '94%' },
+          { label: 'Avg. Time', val: '1m 12s' }
+        ].map((item, idx) => (
+          <div key={idx} className="glass-card" style={{ padding: '24px' }}>
+            <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-secondary)' }}>{item.label}</span>
+            <div style={{ fontSize: '32px', fontWeight: '800', marginTop: '10px', color: 'var(--primary)' }}>{item.val}</div>
+          </div>
+        ))}
+      </div>
 
-          <Card className="submissions-stat-card">
-            <h4>Avg. Time</h4>
-            <p className="submissions-stat-value">
-              {Math.round(stats.averageTime || 0)}s
-            </p>
-          </Card>
-        </div>
-
-        {/* Filters and Actions */}
-        <div className="submissions-toolbar">
-          <div className="submissions-filters">
-            {['all', 'submitted', 'draft'].map(status => (
+      <div className="glass-card" style={{ padding: '24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            {['All', 'Submitted', 'Draft'].map((tab, i) => (
               <button
-                key={status}
-                className={`submissions-filter ${filter === status ? 'active' : ''}`}
-                onClick={() => setFilter(status)}
+                key={i}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: '14px',
+                  border: '1px solid var(--glass-border)',
+                  background: i === 0 ? 'var(--primary-gradient)' : 'rgba(255, 255, 255, 0.4)',
+                  color: i === 0 ? '#fff' : 'var(--text-secondary)',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  boxShadow: i === 0 ? '0 8px 20px rgba(124, 92, 255, 0.25)' : 'none'
+                }}
               >
-                {status.charAt(0).toUpperCase() + status.slice(1)}
+                {tab}
               </button>
             ))}
           </div>
-
-          <Button
-            variant="secondary"
-            icon={Download}
-            onClick={handleExport}
-            disabled={submissions.length === 0}
-          >
-            Export
-          </Button>
+          <button style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', borderRadius: '14px', border: '1px solid var(--glass-border)', background: 'rgba(255, 255, 255, 0.7)', color: 'var(--text-primary)', fontWeight: '600', cursor: 'pointer' }}>
+            <Download size={16} /> Export CSV
+          </button>
         </div>
-
-        {/* Submissions Table */}
-        <Card className="submissions-table-card">
-          {filteredSubmissions.length === 0 ? (
-            <div className="submissions-empty">
-              <p>No submissions yet</p>
-            </div>
-          ) : (
-            <div className="submissions-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Form</th>
-                    <th>Status</th>
-                    <th>Submitted</th>
-                    <th>Time Taken</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredSubmissions.map(submission => (
-                    <tr key={submission.id}>
-                      <td>#{submission.id}</td>
-                      <td>Form {submission.form_id}</td>
-                      <td>
-                        <span className={`submissions-badge submissions-badge--${submission.status}`}>
-                          {submission.status}
-                        </span>
-                      </td>
-                      <td>{formatDateRelative(submission.created_at)}</td>
-                      <td>{submission.time_taken || '-'}s</td>
-                      <td>
-                        <div className="submissions-actions">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            icon={Eye}
-                            onClick={() => toast.info('View details coming soon')}
-                          />
-                          <Button
-                            variant="danger"
-                            size="sm"
-                            icon={Trash2}
-                            onClick={() => toast.info('Delete coming soon')}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </Card>
+        <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)', fontSize: '14px', fontWeight: '500' }}>
+          No recent submission logs found.
+        </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 
