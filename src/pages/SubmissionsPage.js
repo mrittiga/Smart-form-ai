@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function SubmissionsPage() {
-  const [submissions, setSubmissions] = useState(() => {
+  const [submissions] = useState(() => {
     const saved = localStorage.getItem('smartform_submissions');
     if (saved) return JSON.parse(saved);
     return [
