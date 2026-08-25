@@ -1,58 +1,62 @@
-import React from 'react';
-import { Download, Filter } from 'lucide-react';
+import React, { useState } from 'react';
 
-const SubmissionsPage = () => {
+export default function SubmissionsPage() {
+  const [submissions, setSubmissions] = useState(() => {
+    const saved = localStorage.getItem('smartform_submissions');
+    if (saved) return JSON.parse(saved);
+    return [
+      { id: 'sub_101', formTitle: 'Developer Hiring Application', submittedAt: '2026-06-06 14:22', status: 'Completed', user: 'Alex Morgan' },
+      { id: 'sub_102', formTitle: 'Product Feedback Survey', submittedAt: '2026-06-06 15:10', status: 'Pending', user: 'Sarah Connor' },
+      { id: 'sub_103', formTitle: 'AI Feature Early Access', submittedAt: '2026-06-07 09:45', status: 'Completed', user: 'David Miller' }
+    ];
+  });
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-      <div>
-        <h1 style={{ fontSize: '28px', fontWeight: '800', margin: '0 0 6px 0', color: 'var(--text-primary)' }}>Submissions</h1>
-        <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '15px' }}>Track and manage all form responses</p>
+    <div style={{ maxWidth: '850px', margin: '0 auto', color: '#f8fafc' }}>
+      <div style={{ marginBottom: '20px' }}>
+        <h1 style={{ fontSize: '24px', fontWeight: '800', margin: 0 }}>📥 Form Submissions</h1>
+        <p style={{ color: '#94a3b8', fontSize: '14px', marginTop: '4px', margin: 0 }}>
+          Inspect live entries, responses, and participant records captured by your forms.
+        </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
-        {[
-          { label: 'Total Submissions', val: '128' },
-          { label: 'Success Rate', val: '94%' },
-          { label: 'Avg. Time', val: '1m 12s' }
-        ].map((item, idx) => (
-          <div key={idx} className="glass-card" style={{ padding: '24px' }}>
-            <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-secondary)' }}>{item.label}</span>
-            <div style={{ fontSize: '32px', fontWeight: '800', marginTop: '10px', color: 'var(--primary)' }}>{item.val}</div>
-          </div>
-        ))}
-      </div>
-
-      <div className="glass-card" style={{ padding: '24px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            {['All', 'Submitted', 'Draft'].map((tab, i) => (
-              <button
-                key={i}
-                style={{
-                  padding: '10px 20px',
-                  borderRadius: '14px',
-                  border: '1px solid var(--glass-border)',
-                  background: i === 0 ? 'var(--primary-gradient)' : 'rgba(255, 255, 255, 0.4)',
-                  color: i === 0 ? '#fff' : 'var(--text-secondary)',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  boxShadow: i === 0 ? '0 8px 20px rgba(124, 92, 255, 0.25)' : 'none'
-                }}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-          <button style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', borderRadius: '14px', border: '1px solid var(--glass-border)', background: 'rgba(255, 255, 255, 0.7)', color: 'var(--text-primary)', fontWeight: '600', cursor: 'pointer' }}>
-            <Download size={16} /> Export CSV
-          </button>
-        </div>
-        <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)', fontSize: '14px', fontWeight: '500' }}>
-          No recent submission logs found.
+      <div style={{ backgroundColor: '#1e293b', borderRadius: '12px', border: '1px solid #334155', overflow: 'hidden' }}>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
+            <thead>
+              <tr style={{ backgroundColor: '#0f172a', color: '#94a3b8', borderBottom: '1px solid #334155' }}>
+                <th style={{ padding: '14px 16px', fontWeight: '650' }}>Submission ID</th>
+                <th style={{ padding: '14px 16px', fontWeight: '650' }}>Form Title</th>
+                <th style={{ padding: '14px 16px', fontWeight: '650' }}>Respondent</th>
+                <th style={{ padding: '14px 16px', fontWeight: '650' }}>Timestamp</th>
+                <th style={{ padding: '14px 16px', fontWeight: '650' }}>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {submissions.map((sub, idx) => (
+                <tr key={sub.id} style={{ borderBottom: idx < submissions.length - 1 ? '1px solid #334155' : 'none' }}>
+                  <td style={{ padding: '14px 16px', color: '#6366f1', fontWeight: '600' }}>{sub.id}</td>
+                  <td style={{ padding: '14px 16px', color: '#f8fafc' }}>{sub.formTitle}</td>
+                  <td style={{ padding: '14px 16px', color: '#cbd5e1' }}>{sub.user}</td>
+                  <td style={{ padding: '14px 16px', color: '#94a3b8', fontSize: '13px' }}>{sub.submittedAt}</td>
+                  <td style={{ padding: '14px 16px' }}>
+                    <span style={{
+                      padding: '4px 10px',
+                      borderRadius: '20px',
+                      fontSize: '12px',
+                      fontWeight: '700',
+                      backgroundColor: sub.status === 'Completed' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                      color: sub.status === 'Completed' ? '#34d399' : '#fbbf24'
+                    }}>
+                      {sub.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   );
-};
-
-export default SubmissionsPage;
+}

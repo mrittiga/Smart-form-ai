@@ -1,55 +1,37 @@
 import React from 'react';
-import { BarChart2, TrendingUp, Users, Clock } from 'lucide-react';
 
-const AnalyticsPage = () => {
+export default function AnalyticsPage() {
+  const stats = [
+    { label: 'Total Form Views', value: '1,428', change: '+14% this week', color: '#6366f1' },
+    { label: 'Conversion Rate', value: '68.4%', change: '+5.2% vs avg', color: '#10b981' },
+    { label: 'AI Form Generations', value: '342', change: 'Active engine', color: '#f59e0b' }
+  ];
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-      <div>
-        <h1 style={{ fontSize: '28px', fontWeight: '800', margin: '0 0 6px 0', color: 'var(--text-primary)' }}>Analytics</h1>
-        <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '15px' }}>Track performance and response insights</p>
+    <div style={{ maxWidth: '850px', margin: '0 auto', color: '#f8fafc' }}>
+      <div style={{ marginBottom: '20px' }}>
+        <h1 style={{ fontSize: '24px', fontWeight: '800', margin: 0 }}>📈 Analytics & Insights</h1>
+        <p style={{ color: '#94a3b8', fontSize: '14px', marginTop: '4px', margin: 0 }}>
+          Real-time metrics tracking engagement, interaction rates, and completion performance.
+        </p>
       </div>
 
-      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-        {['Today', 'Last 7 Days', 'Last 30 Days', 'Last 90 Days'].map((range, idx) => (
-          <button
-            key={idx}
-            style={{
-              padding: '10px 18px',
-              borderRadius: '14px',
-              border: '1px solid var(--glass-border)',
-              background: idx === 1 ? 'var(--primary-light)' : 'rgba(255, 255, 255, 0.4)',
-              color: idx === 1 ? 'var(--primary)' : 'var(--text-secondary)',
-              fontWeight: '600',
-              cursor: 'pointer'
-            }}
-          >
-            {range}
-          </button>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px', marginBottom: '24px' }}>
+        {stats.map((stat, i) => (
+          <div key={i} style={{ backgroundColor: '#1e293b', padding: '20px', borderRadius: '12px', border: '1px solid #334155' }}>
+            <div style={{ fontSize: '13px', color: '#94a3b8', fontWeight: '600' }}>{stat.label}</div>
+            <div style={{ fontSize: '28px', fontWeight: '800', color: stat.color, margin: '8px 0 4px 0' }}>{stat.value}</div>
+            <div style={{ fontSize: '12px', color: '#cbd5e1' }}>{stat.change}</div>
+          </div>
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '24px' }}>
-        {[
-          { label: 'TOTAL FORMS', val: '4', sub: '↑ +2 this week', icon: BarChart2 },
-          { label: 'TOTAL SUBMISSIONS', val: '128', sub: '↑ +18 this week', icon: TrendingUp },
-          { label: 'AVG. COMPLETION TIME', val: '2m 34s', sub: '↓ -15 sec this week', icon: Clock },
-          { label: 'COMPLETION RATE', val: '88%', sub: '↑ +5% this week', icon: Users }
-        ].map((card, i) => {
-          const Icon = card.icon;
-          return (
-            <div key={i} className="glass-card" style={{ padding: '24px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--text-muted)', letterSpacing: '0.8px' }}>{card.label}</span>
-                <Icon size={20} color="var(--primary)" />
-              </div>
-              <div style={{ fontSize: '32px', fontWeight: '800', margin: '14px 0 6px 0', color: 'var(--text-primary)' }}>{card.val}</div>
-              <span style={{ fontSize: '13px', fontWeight: '600', color: card.sub.includes('↑') ? '#10b981' : '#f59e0b' }}>{card.sub}</span>
-            </div>
-          );
-        })}
+      <div style={{ backgroundColor: '#1e293b', padding: '24px', borderRadius: '12px', border: '1px solid #334155' }}>
+        <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#f8fafc' }}>Dwell Time & Heatmap Overview</h3>
+        <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
+          Users spend an average of <strong>42 seconds</strong> completing generated forms. Field-level tracking indicates highest focus on custom dropdown selections and text input areas.
+        </p>
       </div>
     </div>
   );
-};
-
-export default AnalyticsPage;
+}

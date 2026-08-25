@@ -1,77 +1,156 @@
 import React from 'react';
-import { 
-  X, LayoutDashboard, FileText, CheckSquare, 
-  BarChart3, User, Settings, LogOut 
-} from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-export default function Sidebar({ isOpen, onClose, currentPath, onNavigate }) {
-  if (!isOpen) return null;
+export default function Sidebar({ theme, toggleTheme, userProfile, onLogout, isOpen, onClose }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isDark = theme === 'dark';
 
   const navItems = [
-    { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-    { name: 'Forms', icon: FileText, path: '/forms' },
-    { name: 'Submissions', icon: CheckSquare, path: '/submissions' },
-    { name: 'Analytics', icon: BarChart3, path: '/analytics' },
-    { name: 'Profile', icon: User, path: '/profile' },
-    { name: 'Settings', icon: Settings, path: '/settings' },
+    { name: 'Dashboard', path: '/dashboard', icon: '📊' },
+    { name: 'AI Form Filler', path: '/ai-filler', icon: '🤖' },
+    { name: 'Advanced AI', path: '/advanced-ai', icon: '⚡' },
+    { name: 'Forms', path: '/form-builder', icon: '📝' },
+    { name: 'Submissions', path: '/submissions', icon: '📥' },
+    { name: 'Analytics', path: '/analytics', icon: '📈' },
+    { name: 'Profile', path: '/profile', icon: '👤' },
+    { name: 'Settings', path: '/settings', icon: '⚙️' },
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex">
-      <div 
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      <div className="relative w-72 bg-[#250d20] h-full p-5 flex flex-col justify-between z-10 shadow-2xl border-r border-pink-950/40">
+    <>
+      {isOpen && (
+        <div 
+          onClick={onClose} 
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.6)',
+            backdropFilter: 'blur(3px)',
+            zIndex: 998
+          }} 
+        />
+      )}
+
+      <aside style={{
+        width: '260px',
+        height: '100vh',
+        position: 'fixed',
+        top: 0,
+        left: isOpen ? 0 : '-270px',
+        transition: 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        background: isDark ? '#0b0f17' : '#ffffff',
+        borderRight: isDark ? '1px solid #1e293b' : '1px solid #e2e8f0',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: '24px 16px',
+        boxSizing: 'border-box',
+        zIndex: 999,
+        color: isDark ? '#f8fafc' : '#0f172a',
+        boxShadow: isOpen ? '4px 0 25px rgba(0,0,0,0.3)' : 'none'
+      }}>
         <div>
-          <div className="flex justify-end mb-4">
-            <button onClick={onClose} className="text-pink-300 hover:text-white">
-              <X className="w-6 h-6" />
-            </button>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px', padding: '0 8px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 'bold', margin: 0, color: '#6366f1' }}>SmartForm AI</h2>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <button onClick={toggleTheme} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px' }}>
+                {isDark ? '☀️' : '🌙'}
+              </button>
+              <button onClick={onClose} style={{ background: 'none', border: 'none', color: isDark ? '#94a3b8' : '#64748b', fontSize: '22px', cursor: 'pointer' }}>
+                ✕
+              </button>
+            </div>
           </div>
-          
-          <nav className="space-y-1">
+
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = currentPath === item.path;
+              const isActive = location.pathname === item.path;
               return (
                 <button
-                  key={item.name}
+                  key={item.path}
                   onClick={() => {
-                    onNavigate(item.path);
+                    navigate(item.path);
                     onClose();
                   }}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition ${
-                    isActive 
-                      ? 'bg-pink-600/30 text-pink-300 border-r-4 border-pink-500' 
-                      : 'text-pink-200/80 hover:bg-pink-950/40 hover:text-white'
-                  }`}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '12px 16px',
+                    borderRadius: '10px',
+                    border: 'none',
+                    background: isActive ? (isDark ? '#1e293b' : '#f1f5f9') : 'transparent',
+                    color: isActive ? '#6366f1' : (isDark ? '#94a3b8' : '#64748b'),
+                    fontWeight: isActive ? '600' : '500',
+                    fontSize: '15px',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    width: '100%'
+                  }}
                 >
-                  <Icon className="w-5 h-5" />
-                  <span>{item.name}</span>
+                  <span style={{ fontSize: '18px' }}>{item.icon}</span>
+                  {item.name}
                 </button>
               );
             })}
           </nav>
         </div>
 
-        <div className="space-y-3">
-          <div className="bg-[#33142c] p-3 rounded-xl flex items-center space-x-3 border border-pink-900/30">
-            <div className="w-10 h-10 rounded-lg bg-pink-900/60 flex items-center justify-center font-bold text-white">
-              M
+        <div style={{ borderTop: isDark ? '1px solid #1e293b' : '1px solid #e2e8f0', paddingTop: '16px' }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            padding: '12px',
+            background: isDark ? '#111827' : '#f8fafc',
+            borderRadius: '12px',
+            marginBottom: '12px'
+          }}>
+            <div style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              background: '#6366f1',
+              color: '#fff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: 'bold'
+            }}>
+              {userProfile?.name ? userProfile.name.charAt(0) : 'M'}
             </div>
-            <div className="overflow-hidden">
-              <p className="text-sm font-semibold truncate text-white">Mrittiga M</p>
-              <p className="text-xs text-pink-300/70 truncate">mrittigam@gmail.com</p>
+            <div style={{ overflow: 'hidden' }}>
+              <div style={{ fontSize: '14px', fontWeight: '600', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                {userProfile?.name || 'Mrittiga M'}
+              </div>
+              <div style={{ fontSize: '12px', color: '#94a3b8', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                {userProfile?.email || 'mrittigam@gmail.com'}
+              </div>
             </div>
           </div>
 
-          <button className="w-full flex items-center justify-center space-x-2 py-2.5 bg-red-950/40 hover:bg-red-900/50 text-red-200 rounded-xl text-sm font-medium transition border border-red-900/40">
-            <LogOut className="w-4 h-4" />
-            <span>Logout</span>
+          <button 
+            onClick={onLogout}
+            style={{
+              width: '100%',
+              padding: '10px',
+              borderRadius: '8px',
+              border: 'none',
+              background: 'rgba(239, 68, 68, 0.1)',
+              color: '#ef4444',
+              fontWeight: '600',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px'
+            }}
+          >
+            Logout
           </button>
         </div>
-      </div>
-    </div>
+      </aside>
+    </>
   );
 }
